@@ -27,20 +27,20 @@ return """if(Categories.equals('EU-Region')){
      }
      """
 }
-properties([
-    parameters([
-        [$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', name: 'Categories', script:
-        [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["ERROR"]'], script:
-        [classpath: [], sandbox: false, script:  categories]]],
-
-        [$class: 'CascadeChoiceParameter', choiceType: 'PT_SINGLE_SELECT',name: 'REGION_NAME', referencedParameters: 'Categories', script:
-        [$class: 'GroovyScript', fallbackScript:
-        [classpath: [], sandbox: false, script: 'return ["error"]'], script: [classpath: [], sandbox: false, script: items]]]
-    ])
-])
 
 pipeline {
   agent any
+  parameters {
+        ([
+          [$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT', name: 'Categories', script:
+          [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["ERROR"]'], script:
+          [classpath: [], sandbox: false, script:  categories]]],
+
+          [$class: 'CascadeChoiceParameter', choiceType: 'PT_SINGLE_SELECT',name: 'REGION_NAME', referencedParameters: 'Categories', script:
+          [$class: 'GroovyScript', fallbackScript:
+          [classpath: [], sandbox: false, script: 'return ["error"]'], script: [classpath: [], sandbox: false, script: items]]]
+      ])
+    }
 
   stages{
     stage('Doing something'){
